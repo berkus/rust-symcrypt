@@ -1,13 +1,10 @@
-#[cfg(target_os = "windows")]
-use std::env;
-
 fn main() {
     #[cfg(target_os = "windows")]
     {
         // Look for the .lib file during link time. We are searching the Windows/System32 path which is set as a current default to match
         // the long term placement of a Windows shipped symcrypt.dll
 
-        let lib_path = env::var("SYMCRYPT_LIB_PATH")
+        let lib_path = std::env::var("SYMCRYPT_LIB_PATH")
             .unwrap_or_else(|_| panic!("SYMCRYPT_LIB_PATH environment variable not set, for more information please see: https://github.com/microsoft/rust-symcrypt/tree/main/rust-symcrypt#quick-start-guide"));
         println!("cargo:rustc-link-search=native={}", lib_path);
 
@@ -40,5 +37,14 @@ fn main() {
 
         // Note: This process is a band-aid. Long-term, our long term solution is to package manage SymCrypt for a subset of
         // Linux distros.
+    }
+
+    #[cfg(target_os = "macos")]
+    {
+        let _ = std::env::var("SYMCRYPT_LIB_PATH").and_then(|lib_path| {
+            println!("cargo:rustc-link-search=native={}", lib_path);
+            Ok(())
+        });
+        println!("cargo:rustc-link-lib=dylib=symcrypt");
     }
 }
