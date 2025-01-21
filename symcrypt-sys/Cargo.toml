@@ -10,7 +10,19 @@ homepage = "https://github.com/microsoft/SymCrypt"
 repository = "https://github.com/microsoft/rust-symcrypt"
 readme = "README.md"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+default = []
+# Build symcrypt statically
+static = ["dep:cmake", "dep:gix"]
 
 [dependencies]
 libc = "0.2.0"
+
+[build-dependencies]
+cmake = { version = "0.1", optional = true }
+gix = { version = "0.69", optional = true, features = [
+    "blocking-network-client",
+    "blocking-http-transport-reqwest-native-tls",
+    "interrupt",
+    "worktree-mutation",
+] }
