@@ -49,7 +49,7 @@ fn main() {
             .define("SYMCRYPT_TARGET_ARCH", "ARM64")
             .define("SYMCRYPT_USE_ASM", "OFF")
             .define("SYMCRYPT_FIPS_BUILD", "OFF")
-            // .define("CMAKE_BUILD_TYPE", "RelWithDebInfo")
+            .define("CMAKE_BUILD_TYPE", "RelWithDebInfo")
             .build_target(SYMCRYPT_TARGET)
             .build();
 
@@ -58,7 +58,7 @@ fn main() {
             dst.display()
         );
         println!("cargo::rustc-link-lib=static:+bundle={}", SYMCRYPT_TARGET);
-        println!("cargo::rustc-link-lib=static:+bundle={}", "symcrypt_common");
+        // println!("cargo::rustc-link-lib=static:+bundle={}", "symcrypt_common");
     }
 
     #[cfg(not(feature = "static"))]
