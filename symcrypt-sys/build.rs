@@ -57,8 +57,11 @@ fn main() {
             "cargo::rustc-link-search=native={}/build/lib",
             dst.display()
         );
-        println!("cargo::rustc-link-lib=static:+bundle={}", SYMCRYPT_TARGET);
-        // println!("cargo::rustc-link-lib=static:+bundle={}", "symcrypt_common");
+        println!(
+            "cargo::rustc-link-lib=static:+bundle,+verbatim={}.a",
+            SYMCRYPT_TARGET
+        );
+        println!("cargo::rustc-link-lib=static:+bundle={}", "symcrypt_common");
     }
 
     #[cfg(not(feature = "static"))]
