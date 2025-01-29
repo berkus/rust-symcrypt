@@ -58,10 +58,13 @@ fn main() {
             dst.display()
         );
         println!(
-            "cargo::rustc-link-lib=static:+bundle,+verbatim={}.a",
+            "cargo::rustc-link-lib=static:+bundle,+verbatim,+whole-archive={}.a",
             SYMCRYPT_TARGET
         );
-        println!("cargo::rustc-link-lib=static:+bundle={}", "symcrypt_common");
+        println!(
+            "cargo::rustc-link-lib=static:+bundle,+whole-archive={}",
+            "symcrypt_common"
+        );
     }
 
     #[cfg(not(feature = "static"))]
